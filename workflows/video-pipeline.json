@@ -42,7 +42,7 @@
             "depends_on": [
                 "generar-audio"
             ],
-            "disabled": true
+            "disabled": false
         },
         {
             "id": "generar-video",
