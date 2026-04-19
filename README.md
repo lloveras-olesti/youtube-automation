@@ -1,4 +1,4 @@
-# canal-reli — Automated Long-Form YouTube Content Pipeline
+# Automated Long-Form YouTube Content Pipeline
 
 End-to-end automation system for producing and publishing long-form YouTube videos. Given a content calendar, the pipeline generates script, synthesizes voice locally (XTTS v2 on GPU), transcribes subtitles (Whisper), composes thumbnails (Pillow), renders the final video (FFmpeg), and uploads to YouTube — all orchestrated via a JSON-defined workflow runner.
 
