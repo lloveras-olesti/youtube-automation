@@ -3,8 +3,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: canal-reli:latest
-    container_name: canal-reli
+    image: youtube-automation:latest
+    container_name: youtube-automation
     restart: unless-stopped
     environment:
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
