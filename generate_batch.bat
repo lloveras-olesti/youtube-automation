@@ -1,5 +1,5 @@
 @echo off
-cd /d C:\docker\projects\canal-reli
+cd /d *ADD RUTE*
 
 :: Contar líneas del CSV excluyendo la cabecera
 set COUNT=0
