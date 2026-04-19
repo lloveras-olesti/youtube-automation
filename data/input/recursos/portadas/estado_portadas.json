@@ -1,0 +1,42 @@
+{
+  "ARQUERO": {
+    "ultimo_usado": 0,
+    "total": 5
+  },
+  "CADENAS": {
+    "ultimo_usado": 3,
+    "total": 5
+  },
+  "CRUZ": {
+    "ultimo_usado": 2,
+    "total": 5
+  },
+  "CÁLIZ": {
+    "ultimo_usado": 3,
+    "total": 6
+  },
+  "DEMONIO": {
+    "ultimo_usado": 3,
+    "total": 6
+  },
+  "ESPADA": {
+    "ultimo_usado": 7,
+    "total": 8
+  },
+  "FENIX": {
+    "ultimo_usado": 5,
+    "total": 6
+  },
+  "JESUS": {
+    "ultimo_usado": 3,
+    "total": 10
+  },
+  "LEON": {
+    "ultimo_usado": 4,
+    "total": 5
+  },
+  "LIBRO": {
+    "ultimo_usado": 3,
+    "total": 5
+  }
+}

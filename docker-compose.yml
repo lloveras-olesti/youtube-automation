@@ -1,0 +1,46 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: canal-reli:latest
+    container_name: canal-reli
+    restart: unless-stopped
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - YOUTUBE_API_KEY=${YOUTUBE_API_KEY}
+
+      - DATA_PATH=/app/data
+      - PROMPTS_PATH=/app/prompts
+      - SHARED_PROMPTS_PATH=/app/shared_prompts
+
+      - PROJECT_NAME=canal-reli
+      - CANAL_URL=${CANAL_URL}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - SCRIPT_LENGTH=${SCRIPT_LENGTH:-5000}
+      - VIDEO_RESOLUTION=${VIDEO_RESOLUTION:-1920x1080}
+      - DEFAULT_STYLE=${DEFAULT_STYLE:-formal}
+      - DEFAULT_INTRO=${DEFAULT_INTRO:-rapida}
+
+      - CLAUDE_MODEL=${CLAUDE_MODEL:-claude-sonnet-4-20250514}
+      - CLAUDE_MAX_TOKENS=${CLAUDE_MAX_TOKENS:-8000}
+
+    volumes:
+      - ./prompts:/app/prompts:ro
+      - ./app:/app
+      - ./data:/app/data
+      - ./config:/app/config:ro
+      - whisper_cache:/root/.cache/whisper
+
+    networks:
+      - canal_reli_network
+
+    command: sleep infinity
+
+networks:
+  canal_reli_network:
+    driver: bridge
+
+volumes:
+  whisper_cache:
+    driver: local

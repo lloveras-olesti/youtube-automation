@@ -1,0 +1,26 @@
+{
+  "foto1": {
+    "ultimo_usado": 0,
+    "total": 0
+  },
+  "foto2": {
+    "ultimo_usado": 0,
+    "total": 0
+  },
+  "foto3": {
+    "ultimo_usado": 0,
+    "total": 0
+  },
+  "foto4": {
+    "ultimo_usado": 0,
+    "total": 0
+  },
+  "foto5": {
+    "ultimo_usado": 0,
+    "total": 0
+  },
+  "musica": {
+    "ultimo_usado": 0,
+    "total": 0
+  }
+}

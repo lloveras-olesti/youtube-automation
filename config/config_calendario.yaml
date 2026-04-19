@@ -1,0 +1,163 @@
+# ============================================
+# CONFIGURACIÓN GENERADOR DE CALENDARIO
+# ============================================
+# Ubicación: C:\docker\projects\canal-reli\config\config_calendario.yaml
+
+# Archivos
+archivo_historico: "historico_videos.csv"
+
+# Generación
+dias_a_generar: 30
+fecha_inicial: "auto"  # "auto" o "YYYY-MM-DD"
+
+# Modelos Claude
+modelo: "claude-sonnet-4-6"
+max_tokens: 16000
+
+# ============================================
+# SALMOS DE ALTA FRECUENCIA
+# ============================================
+salmos_alta_frecuencia:
+  - salmo: 35
+    cada_dias: 7.5
+  - salmo: 91
+    veces_por_mes: 2
+  - salmo: 140
+    veces_por_mes: 2
+
+# Otros salmos: mínimo N días entre repeticiones del mismo salmo
+dias_minimos_repeticion: 30
+
+# ============================================
+# BENCHMARK DE YOUTUBE
+# ============================================
+# Si true, Claude usa web_search durante la generación del calendario
+usar_benchmark_youtube: true
+
+# ============================================
+# CANALES DE REFERENCIA
+# ============================================
+# Procesados por obtener_referencias.py → config/referencias_canales.json
+# generar_calendario.py carga ese JSON automáticamente si existe.
+canales_referencia_youtube:
+  - nombre: "Divina Oración"
+    url: "https://www.youtube.com/@DIVINAORACI%C3%93NOFICIAL"
+    handle: "@DIVINAORACIONOFICIAL"
+  - nombre: "Voz de Esperanza"
+    url: "https://www.youtube.com/@VozDeEsperanzaMusic"
+    handle: "@VozDeEsperanzaMusic"
+  - nombre: "Transformación Álmica"
+    url: "https://www.youtube.com/@Transformaci%C3%B3n%C3%81lmica"
+    handle: "@TransformacionAlmica"
+  - nombre: "En el Nombre de Jesús"
+    url: "https://www.youtube.com/@EnelnombredeJes%C3%BAs-z1r"
+    handle: "@EnelnombredeJesus"
+  - nombre: "Salmos y Proverbios"
+    url: "https://www.youtube.com/@SALMOSYPROVERBIOSS"
+    handle: "@SALMOSYPROVERBIOSS"
+  - nombre: "Adoradores del Altísimo"
+    url: "https://www.youtube.com/@AdoradoresdelAlt%C3%ADsimo"
+    handle: "@AdoradoresdelAltisimo"
+  - nombre: "Oraciones de la Sangre de Cristo"
+    url: "https://www.youtube.com/@OracionesDeLaSangreDeCristo"
+    handle: "@OracionesDeLaSangreDeCristo"
+
+# ============================================
+# TEMÁTICAS DE PORTADA
+# ============================================
+# Pool manual — añade o elimina valores libremente.
+# El script garantiza rotación equilibrada entre todos los valores presentes.
+# Nunca uses "OTRO" aquí — ese valor es solo para datos históricos sin clasificar.
+tematicas_portada:
+  - LEON
+  - JESUS
+  - FENIX
+  - ARQUERO
+  - CADENAS
+  - CÁLIZ
+  - DEMONIO
+  - LIBRO
+  - CRUZ
+  - ESPADA
+
+# ============================================
+# PRE-PROCESADO DEL HISTÓRICO
+# ============================================
+preprocesado_historico:
+  # Percentil de CTR para separar top performers (se envían completos al modelo)
+  # del resto (se envían como resumen estadístico para ahorrar tokens)
+  percentil_top: 60          # top 40% de CTR se envían completos
+  max_filas_top_a_enviar: 80  # límite duro de filas verbatim
+
+# ============================================
+# SLOTS DE TESTING
+# ============================================
+slots_testing:
+  habilitado: true
+  porcentaje: 20   # ~6 vídeos en un calendario de 30
+  descripcion_testing: >
+    Slots de testing: títulos experimentales fuera del estilo habitual del canal.
+    Permiten descubrir nuevos formatos sin comprometer el rendimiento del calendario.
+
+# ============================================
+# CATÁLOGO DE ESTILOS DE TÍTULO
+# ============================================
+# Estos estilos son ORIENTATIVOS, no obligatorios.
+# Claude debe usarlos como inspiración para generar variedad,
+# pero tiene libertad para combinarlos, adaptarlos o ignorarlos
+# según los patrones que identifique en el histórico.
+# El objetivo es variedad real, no distribución porcentual exacta.
+catalogo_estructuras_titulo:
+  - id: "EST-01"
+    nombre: "Promesa Directa"
+    patron: "[EMOJI] [SALMO + nº]: [Beneficio concreto en imperativo o futuro]"
+    ejemplo: "🔥SALMO 91: Dios Romperá Toda Maldición Sobre Tu Vida HOY"
+
+  - id: "EST-02"
+    nombre: "Pregunta Retórica + Solución"
+    patron: "[EMOJI] ¿[Problema del oyente]? [Salmo/Oración + solución]"
+    ejemplo: "🛑¿Sientes que todo se derrumba? El Salmo 46 tiene la respuesta"
+
+  - id: "EST-03"
+    nombre: "Urgencia Temporal"
+    patron: "[EMOJI] [SALMO + nº]: [Acción] [HOY / AHORA / ESTA NOCHE]"
+    ejemplo: "⚡SALMO 35: Activa la Protección Divina ESTA NOCHE"
+
+  - id: "EST-04"
+    nombre: "Secreto / Revelación"
+    patron: "[EMOJI] El [secreto/poder/salmo] que [pocos conocen / cambiará tu vida]"
+    ejemplo: "🛑El Salmo Secreto que Expulsa la Envidia y las Malas Energías"
+
+  - id: "EST-05"
+    nombre: "Beneficio para Terceros"
+    patron: "[EMOJI] [Salmo/Oración] por [tu familia / tus hijos / tu hogar]"
+    ejemplo: "🩸Oración a la Sangre de Cristo: Protección Divina para tu Familia"
+
+  - id: "EST-06"
+    nombre: "Intensidad Emocional"
+    patron: "[EMOJI] [Adjetivo superlativo]: [Salmo + nº] para [Temática]"
+    ejemplo: "💥La Oración MÁS PODEROSA del Salmo 140 Contra Enemigos Ocultos"
+
+# ============================================
+# VARIACIONES DE COMPETENCIA
+# ============================================
+# % de títulos del calendario que deben ser variaciones directas
+# de títulos de alto rendimiento de los canales de referencia.
+# Requiere que referencias_canales.json exista con datos de visualizaciones.
+variaciones_competencia:
+  habilitado: true
+  porcentaje: 25   # ~7 de 30 títulos serán variaciones de la competencia
+
+# ============================================
+# CÓDIGOS DE TEXTO E INTRO
+# ============================================
+textos_posibles: ["formal", "cercano", "reflexivo"]
+intros_posibles: ["intro-rapida", "intro-contextual", "intro-emocional"]
+
+# ============================================
+# PREFERENCIAS DE TÍTULOS
+# ============================================
+preferencias_titulos:
+  longitud_min: 65
+  longitud_max: 90
+  permitir_emojis: true

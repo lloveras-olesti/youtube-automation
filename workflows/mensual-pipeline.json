@@ -1,0 +1,74 @@
+{
+    "id": "mensual-pipeline",
+    "name": "Pipeline Mensual de Calendario",
+    "description": "Pipeline completa mensual: sincroniza analytics, analiza aprendizaje, obtiene referencias de competencia y genera el calendario de 30 videos.",
+    "project": "canal-reli",
+    "version": "1.0.0",
+    "created_at": "2026-03-12T00:00:00Z",
+    "triggers": {
+        "manual": true,
+        "schedule": null
+    },
+    "steps": [
+        {
+            "id": "sincronizar-youtube",
+            "name": "Sincronizar Analytics YouTube",
+            "type": "command",
+            "command": "python app/utils/sincronizar_youtube.py",
+            "container": "canal-reli",
+            "args": [],
+            "depends_on": [],
+            "notes": "Rellena CTR/Impresiones/Visualizaciones del mes anterior en historico_videos.csv. Si ya esta sincronizado, ejecutar con --force."
+        },
+        {
+            "id": "aprendizaje-mensual",
+            "name": "Aprendizaje Mensual",
+            "type": "command",
+            "command": "python app/generators/aprendizaje_mensual.py",
+            "container": "canal-reli",
+            "args": [],
+            "depends_on": [
+                "sincronizar-youtube"
+            ],
+            "notes": "Analiza el mes anterior y genera insights_acumulados.json. generar_calendario.py lo lee automaticamente."
+        },
+        {
+            "id": "obtener-referencias",
+            "name": "Obtener Referencias de Competencia",
+            "type": "command",
+            "command": "python app/generators/obtener_referencias.py",
+            "container": "canal-reli",
+            "args": [],
+            "depends_on": [],
+            "notes": "Independiente de sincronizar-youtube. Extrae titulos y visualizaciones de canales de referencia. Requiere YOUTUBE_API_KEY en .env."
+        },
+        {
+            "id": "generar-calendario",
+            "name": "Generar Calendario",
+            "type": "command",
+            "command": "python app/generators/generar_calendario.py",
+            "container": "canal-reli",
+            "args": [],
+            "depends_on": [
+                "aprendizaje-mensual",
+                "obtener-referencias"
+            ],
+            "notes": "Genera calendario.csv con 30 videos. Usa insights_acumulados.json y referencias_canales.json automaticamente si existen."
+        },
+        {
+            "id": "formatear-portadas",
+            "name": "Formatear Portadas (tamanos y colores)",
+            "type": "command",
+            "command": "python app/utils/formatear_portadas.py",
+            "container": "canal-reli",
+            "args": [],
+            "depends_on": [
+                "generar-calendario"
+            ],
+            "disabled": false,
+            "notes": "Validado. Activa cuando generar_portada.py este testeado y los constraints de layout confirmados."
+        }
+    ],
+    "on_failure": "abort",
+    "notify_on_complete": false
+}

@@ -1,0 +1,148 @@
+{
+    "id": "video-pipeline-canal-reli",
+    "name": "Video Pipeline",
+    "description": "Genera, procesa y sube un vídeo completo al canal.",
+    "project": "canal-reli",
+    "version": "2.2.0",
+    "created_at": "2025-01-01T00:00:00Z",
+    "triggers": {
+        "manual": true,
+        "schedule": null
+    },
+    "steps": [
+        {
+            "id": "generar-guion",
+            "name": "Generar Guión",
+            "type": "command",
+            "command": "python app/generators/generar_guion.py",
+            "container": "canal-reli",
+            "args": [
+                "--fila",
+                "1"
+            ],
+            "depends_on": []
+        },
+        {
+            "id": "generar-audio",
+            "name": "Generar Audio TTS",
+            "type": "host_command",
+            "command": "tts-venv\\Scripts\\python.exe app/generators/generar_audio.py",
+            "args": [],
+            "depends_on": [
+                "generar-guion"
+            ]
+        },
+        {
+            "id": "generar-subtitulos",
+            "name": "Generar Subtítulos",
+            "type": "command",
+            "command": "python app/generators/generar_subtitulos.py",
+            "container": "canal-reli",
+            "args": [],
+            "depends_on": [
+                "generar-audio"
+            ],
+            "disabled": true
+        },
+        {
+            "id": "generar-video",
+            "name": "Generar Vídeo",
+            "type": "command",
+            "command": "python app/pipeline/generar_video.py",
+            "container": "canal-reli",
+            "args": [],
+            "depends_on": [
+                "generar-audio"
+            ]
+        },
+        {
+            "id": "generar-seo",
+            "name": "Generar SEO",
+            "type": "command",
+            "command": "python app/generators/generar_seo.py",
+            "container": "canal-reli",
+            "args": [
+                "--fila",
+                "1"
+            ],
+            "depends_on": [
+                "generar-video"
+            ]
+        },
+        {
+            "id": "generar-portada",
+            "name": "Generar Portada",
+            "type": "command",
+            "command": "python app/generators/generar_portada.py",
+            "container": "canal-reli",
+            "args": [],
+            "depends_on": [
+                "generar-seo"
+            ]
+        },
+        {
+            "id": "extraer-metadata",
+            "name": "Extraer Metadata",
+            "type": "command",
+            "command": "python app/utils/extraer_metadata.py",
+            "container": "canal-reli",
+            "args": [],
+            "depends_on": [
+                "generar-portada"
+            ],
+            "captures_output": true
+        },
+        {
+            "id": "procesar-metadata",
+            "name": "Procesar Metadata",
+            "type": "transform",
+            "script": "app/utils/procesar_metadata.py",
+            "input_from": "extraer-metadata",
+            "depends_on": [
+                "extraer-metadata"
+            ]
+        },
+        {
+            "id": "subir-video",
+            "name": "Subir a YouTube",
+            "type": "command",
+            "command": "python app/utils/subir_video.py",
+            "container": "canal-reli",
+            "args": [
+                "--fila",
+                "1"
+            ],
+            "input_from": "procesar-metadata",
+            "depends_on": [
+                "procesar-metadata"
+            ],
+            "captures_output": true
+        },
+        {
+            "id": "subir-portada",
+            "name": "Subir Portada a YouTube",
+            "type": "command",
+            "command": "python app/utils/subir_portada.py",
+            "container": "canal-reli",
+            "args": [],
+            "input_from": "subir-video",
+            "depends_on": [
+                "subir-video"
+            ],
+            "notes": "Lee video_id del output de subir-video. Requiere canal verificado en youtube.com/verify"
+        },
+        {
+            "id": "limpiar",
+            "name": "Limpiar Archivos",
+            "type": "command",
+            "command": "python app/utils/limpiar_despues_upload.py",
+            "container": "canal-reli",
+            "args": [],
+            "depends_on": [
+                "subir-video"
+            ]
+        }
+    ],
+    "on_failure": "abort",
+    "notify_on_complete": false
+}

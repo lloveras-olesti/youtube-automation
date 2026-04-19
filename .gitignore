@@ -1,0 +1,83 @@
+# ============================================
+# SECRETOS Y CREDENCIALES
+# ============================================
+.env
+config/youtube_client_secrets.json
+data/youtube_token.json
+
+# ============================================
+# ENTORNO TTS LOCAL (host Windows)
+# 9.4 GB — recrear según README
+# ============================================
+tts-venv/
+tts-model/
+
+# ============================================
+# AUDIO DE REFERENCIA DE VOZ
+# Aportar el propio — ver README
+# ============================================
+data/input/recursos/referencia.wav
+
+# ============================================
+# DATOS RUNTIME (analytics reales del canal)
+# ============================================
+runtime/
+
+# ============================================
+# ASSETS MULTIMEDIA DE INPUT
+# Aportar los propios según estructura indicada en README
+# ============================================
+data/input/recursos/musica/*
+data/input/recursos/portadas/ARQUERO/*
+data/input/recursos/portadas/CADENAS/*
+data/input/recursos/portadas/CÁLIZ/*
+data/input/recursos/portadas/CRUZ/*
+data/input/recursos/portadas/DEMONIO/*
+data/input/recursos/portadas/ESPADA/*
+data/input/recursos/portadas/FENIX/*
+data/input/recursos/portadas/JESUS/*
+data/input/recursos/portadas/LEON/*
+data/input/recursos/portadas/LIBRO/*
+data/input/recursos/videos-loop/foto1/*
+data/input/recursos/videos-loop/foto2/*
+data/input/recursos/videos-loop/foto3/*
+data/input/recursos/videos-loop/foto4/*
+data/input/recursos/videos-loop/foto5/*
+
+# ============================================
+# DIRECTORIOS DE OUTPUT Y TEMPORALES
+# ============================================
+data/logs/*.log
+data/logs/aprendizaje/*
+data/logs/calendario/*
+data/logs/pipeline/*
+data/logs/portadas/*
+data/logs/referencias/*
+data/logs/subida/*
+data/output/metadata/*
+data/output/portadas/*
+data/output/videos/*
+data/temp/audio/*
+data/temp/pipeline/*
+data/temp/subtitles/*
+data/temp/video/*
+
+# ============================================
+# EXCEPCIÓN: conservar .gitkeep para estructura
+# ============================================
+!**/.gitkeep
+
+# ============================================
+# PYTHON
+# ============================================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+
+# ============================================
+# DOCUMENTACIÓN INTERNA DE AGENTES
+# ============================================
+CLAUDE.md
