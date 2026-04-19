@@ -7,8 +7,8 @@
 FROM python:3.11-slim
 
 # Metadata
-LABEL maintainer="Canal Reli Project"
-LABEL description="Container para generación automatizada de videos religiosos"
+LABEL maintainer="YouTube Automation"
+LABEL description="Automated video pipeline"
 
 # Variables de entorno
 ENV PYTHONUNBUFFERED=1 \
