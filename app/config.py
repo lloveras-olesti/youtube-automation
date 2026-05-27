@@ -48,7 +48,7 @@ class Settings:
         # ============================================
         self.canal_url = os.environ.get(
             "CANAL_URL",
-            "https://www.youtube.com/channel/UCdvIFcgn_ci3pddGGqhLbXw?sub_confirmation=1"
+            ""
         )
         
         # ============================================
